@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.example.fitflow20"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.fitflow20"
