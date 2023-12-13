@@ -21,32 +21,45 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:textColor="@color/black"
-            android:text="Login"
+
+            android:text="Register"
             android:textAlignment="center"
             android:textSize="40dp"
             android:textStyle="bold"/>
         <EditText
-            android:padding="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
+            android:padding="8dp"
             android:background="@drawable/shape_edittext"
             android:hint="Username"
-            android:id="@+id/email_login"/>
+            android:id="@+id/email_rgst"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Pick a cool username"
+                    android:textColor="@color/black"
+                    android:id="@+id/warning_lgn"/>
         <EditText
             android:layout_width="match_parent"
-            android:padding="8dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
             android:inputType="textPassword"
-            android:hint="Password"
+            android:padding="8dp"
             android:background="@drawable/shape_edittext"
-            android:id="@+id/password_login"/>
+            android:hint="Password"
+            android:id="@+id/password_rgst"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Password must be 8-12 characters"
+                    android:textColor="@color/black"
+                    android:id="@+id/warning_ps"/>
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_login"
-            android:text="LOG IN"
+            android:id="@+id/btn_rgst"
+            android:text="REGISTER"
             android:textColor="@color/white"
             android:background="@drawable/shape"
             android:layout_marginTop="22dp"
@@ -54,10 +67,10 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Register here"
+            android:text="Login here"
             android:textColor="@color/black"
             android:textAlignment="center"
             android:layout_marginTop="8dp"
-            android:id="@+id/register_text"/>
+            android:id="@+id/login_text"/>
     </LinearLayout>
 </RelativeLayout>
