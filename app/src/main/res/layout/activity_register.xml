@@ -32,14 +32,30 @@
             android:layout_marginTop="14dp"
             android:padding="8dp"
             android:background="@drawable/shape_edittext"
-            android:hint="Username"
+            android:inputType="textEmailAddress"
+            android:hint="email@example.com"
             android:id="@+id/email_rgst"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Pick a cool username"
+                    android:text="Put your email strong guy ;)"
                     android:textColor="@color/black"
-                    android:id="@+id/warning_lgn"/>
+                    android:id="@+id/warning_em_rgst"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:padding="8dp"
+            android:background="@drawable/shape_edittext"
+            android:hint="Username"
+            android:id="@+id/username_rgst"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="What should we call you?"
+                    android:textColor="@color/black"
+                    android:id="@+id/warning_us_rgst"/>
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -52,9 +68,9 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Password must be 8-12 characters"
+                    android:text="Password must be 8-16 characters"
                     android:textColor="@color/black"
-                    android:id="@+id/warning_ps"/>
+                    android:id="@+id/warning_ps_rgst"/>
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

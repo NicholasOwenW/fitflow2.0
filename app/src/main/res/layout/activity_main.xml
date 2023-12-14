@@ -31,8 +31,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
             android:background="@drawable/shape_edittext"
-            android:hint="Username"
+            android:hint="email@example.com"
             android:id="@+id/email_login"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Log in with your email"
+                    android:textColor="@color/black"
+                    android:id="@+id/warning_em_lgn"/>
+
         <EditText
             android:layout_width="match_parent"
             android:padding="8dp"
@@ -42,6 +49,13 @@
             android:hint="Password"
             android:background="@drawable/shape_edittext"
             android:id="@+id/password_login"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Insert password here, don't worry we won't peek"
+                    android:textColor="@color/black"
+                    android:id="@+id/warning_ps_lgn"/>
+
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
