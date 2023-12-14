@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<!-- res/menu/navigation_menu.xml -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
@@ -7,14 +7,17 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/baseline_home_24"
-            android:title="Home" />
+            android:title="Home"
+            />
         <item
             android:id="@+id/nav_bmi"
             android:icon="@drawable/baseline_calculate_24"
-            android:title="BMI Calculator" />
+            android:title="BMI Calculator"
+            />
         <item
             android:id="@+id/nav_scheduler"
             android:icon="@drawable/baseline_featured_play_list_24"
-            android:title="Workout Scheduler" />
+            android:title="Workout Scheduler"
+            />
     </group>
 </menu>

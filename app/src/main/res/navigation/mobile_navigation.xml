@@ -22,4 +22,10 @@
         android:name="com.example.fitflow20.ui.scheduler.SchedulerFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_scheduler" />
+
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.example.fitflow20.ui.profile.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>
