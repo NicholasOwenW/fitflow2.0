@@ -10,6 +10,11 @@
             android:title="Home"
             />
         <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/baseline_person_2_24"
+            android:title="Profile"
+            />
+        <item
             android:id="@+id/nav_bmi"
             android:icon="@drawable/baseline_calculate_24"
             android:title="BMI Calculator"

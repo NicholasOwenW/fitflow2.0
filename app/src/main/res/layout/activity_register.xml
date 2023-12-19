@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:background="@color/sl_black"
+    tools:context=".RegisterActivity"
+    android:background="#478F09"
     android:padding="24dp">
 
     <LinearLayout
@@ -21,75 +21,54 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:textColor="@color/black"
-
             android:text="Register"
             android:textAlignment="center"
             android:textSize="40dp"
             android:textStyle="bold"/>
         <EditText
+            android:padding="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
-            android:textColor="@color/black"
-            android:padding="8dp"
             android:background="@drawable/shape_edittext"
-            android:inputType="textEmailAddress"
-            android:hint="email@example.com"
-            android:id="@+id/email_rgst"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Put your email strong guy ;)"
-                    android:textColor="@color/black"
-                    android:id="@+id/warning_em_rgst"/>
+            android:hint=" UserName"
+            android:id="@+id/et_name"/>
         <EditText
+            android:padding="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
-            android:textColor="@color/black"
-            android:padding="8dp"
             android:background="@drawable/shape_edittext"
-            android:hint="Username"
-            android:id="@+id/username_rgst"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="What should we call you?"
-                    android:textColor="@color/black"
-                    android:id="@+id/warning_us_rgst"/>
+            android:hint=" Phone"
+            android:id="@+id/et_phone"/>
+        <EditText
+            android:padding="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/shape_edittext"
+            android:hint=" email@example.com"
+            android:id="@+id/et_email"/>
 
         <EditText
             android:layout_width="match_parent"
+            android:padding="8dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
             android:layout_marginTop="14dp"
             android:inputType="textPassword"
-            android:padding="8dp"
+            android:hint=" Password"
             android:background="@drawable/shape_edittext"
-            android:hint="Password"
-            android:id="@+id/password_rgst"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Password must be 8-16 characters"
-                    android:textColor="@color/black"
-                    android:id="@+id/warning_ps_rgst"/>
+            android:id="@+id/et_password"/>
+
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_rgst"
-            android:text="REGISTER"
+            android:id="@+id/btn_register"
+            android:text="Register"
             android:textColor="@color/white"
             android:background="@drawable/shape"
             android:layout_marginTop="22dp"
             android:backgroundTint="@color/bg_green"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Login here"
-            android:textColor="@color/black"
-            android:textAlignment="center"
-            android:layout_marginTop="8dp"
-            android:id="@+id/login_text"/>
+
     </LinearLayout>
 </RelativeLayout>
