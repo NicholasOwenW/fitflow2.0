@@ -1,11 +1,13 @@
 package com.example.fitflow20.ui.profile
 
+import android.app.Activity.RESULT_OK
 import android.app.Dialog
 import android.content.Intent
-import android.nfc.Tag
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +15,7 @@ import android.view.Window
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import com.example.fitflow20.MainActivity
 import com.example.fitflow20.R
 import com.example.fitflow20.RegisterActivity
@@ -24,23 +27,22 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
+import de.hdodenhof.circleimageview.CircleImageView
+import java.io.ByteArrayOutputStream
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-
-/**
- * A simple [Fragment] subclass.
- * Use the [SchedulerFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ProfileFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     lateinit var auth: FirebaseAuth
     private lateinit var firebaseUser: FirebaseUser
     private var updatephone = "0"
-
+    private lateinit var imgUser: CircleImageView
+    private lateinit var imageUri: Uri
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+
+    companion object {
+        const val REQUEST_CAMERA = 100
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +64,6 @@ class ProfileFragment : Fragment() {
         val tv_isi_phone = view.findViewById<TextView>(R.id.t_isi_phone)
         userInfo()
 
-        //PROFILE UPDATE PHONE NUMBA
         val editBtn = view.findViewById<TextView>(R.id.edit_phone)
 
         editBtn.setOnClickListener() {
@@ -74,6 +75,12 @@ class ProfileFragment : Fragment() {
         logoutBtn.setOnClickListener() {
             val intent = Intent(requireContext(), MainActivity::class.java)
             startActivity(intent)
+        }
+
+        imgUser = view.findViewById(R.id.imgUser)
+
+        imgUser.setOnClickListener {
+            intentCamera()
         }
 
         return view
@@ -90,14 +97,10 @@ class ProfileFragment : Fragment() {
         val btnCancel: Button = dialog.findViewById(R.id.cancel_edit)
 
         btnEdit.setOnClickListener() {
-            // Retrieve the new phone number from the EditText
             val updatedPhone = newphone.text.toString().trim()
             if (updatedPhone.isNotEmpty()) {
-                // Update the updatephone variable with the new value
                 updatephone = updatedPhone
-                // Log the updated value
                 Log.d("TAGGERSSSSSSSSSSSSSSSS", "Here is updatephone: $updatephone")
-                // Dismiss the dialog
                 updatePhoneNumber(updatedPhone)
                 dialog.dismiss()
             } else {
@@ -112,8 +115,10 @@ class ProfileFragment : Fragment() {
         dialog.show()
     }
 
-    private fun userInfo(){
-        val userRef = FirebaseDatabase.getInstance("https://fitflow-id-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference().child("USERS").child(firebaseUser.uid)
+    private fun userInfo() {
+        val userRef =
+            FirebaseDatabase.getInstance("https://fitflow-id-default-rtdb.asia-southeast1.firebasedatabase.app/")
+                .getReference().child("USERS").child(firebaseUser.uid)
         userRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
@@ -131,14 +136,16 @@ class ProfileFragment : Fragment() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+                // Handle onCancelled
             }
 
         })
     }
+
     private fun updatePhoneNumber(newPhone: String) {
-        val userRef = FirebaseDatabase.getInstance("https://fitflow-id-default-rtdb.asia-southeast1.firebasedatabase.app/")
-            .reference.child("USERS").child(firebaseUser.uid)
+        val userRef =
+            FirebaseDatabase.getInstance("https://fitflow-id-default-rtdb.asia-southeast1.firebasedatabase.app/")
+                .reference.child("USERS").child(firebaseUser.uid)
 
         userRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -151,5 +158,52 @@ class ProfileFragment : Fragment() {
                 // Handle onCancelled
             }
         })
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        imgUser.setOnClickListener {
+            intentCamera()
+        }
+    }
+
+    private fun intentCamera() {
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { intent ->
+            activity?.packageManager?.let {
+                intent.resolveActivity(it).also {
+                    startActivityForResult(intent, REQUEST_CAMERA)
+                }
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CAMERA && resultCode == RESULT_OK) {
+            val imgBitmap = data?.extras?.get("data") as Bitmap
+            uploadImage(imgBitmap)
+        }
+    }
+
+    private fun uploadImage(imgBitmap: Bitmap) {
+        val baos = ByteArrayOutputStream()
+        val ref =
+            FirebaseStorage.getInstance("gs://fitflow-id.appspot.com").reference.child("img/${FirebaseAuth.getInstance().currentUser?.uid}")
+
+        imgBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val image = baos.toByteArray()
+
+        ref.putBytes(image)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    ref.downloadUrl.addOnCompleteListener {
+                        it.result?.let {
+                            imageUri = it
+                            imgUser.setImageBitmap(imgBitmap)
+                        }
+                    }
+                }
+            }
     }
 }
