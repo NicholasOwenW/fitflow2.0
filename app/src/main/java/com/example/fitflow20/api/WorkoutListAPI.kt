@@ -6,6 +6,6 @@ import retrofit2.http.Query
 
 interface WorkoutListAPI {
     @GET("v1/exercises")
-    fun getWorkout(): Response<List<Workout>>
+    suspend fun getWorkout(@Query("name") name: String? = null): Response<List<Workout>>
     //@Query("muscle")muscle : String
 }

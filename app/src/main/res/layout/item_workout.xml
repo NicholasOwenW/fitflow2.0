@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="400dp"
     android:layout_height="80dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/gray"
+    android:layout_marginBottom="7dp"
+    android:layout_marginTop="7dp"
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp"
     >
 
     <TextView
@@ -12,6 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="44dp"
+        android:textColor="@color/main_green"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/workoutCB"
         app:layout_constraintHorizontal_bias="0.0"
@@ -20,44 +26,56 @@
 
     <TextView
         android:id="@+id/workoutMuscle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="84dp"
+        android:layout_width="69dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="12dp"
         android:layout_marginBottom="16dp"
-        android:textSize="10dp"
-        app:layout_constraintBottom_toBottomOf="@id/workoutDifficulty"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="#D9E1D4"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/musclelabel"
+        app:layout_constraintTop_toBottomOf="@+id/workoutTitle"
         tools:text="Placeholder" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/musclelabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:text="Muscle: "
-        android:textSize="11dp"
+        android:textColor="#D7E6AD"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/workoutTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/workoutTitle"
+        app:layout_constraintVertical_bias="0.058" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="172dp"
+        android:layout_marginBottom="16dp"
         android:text="Difficulty: "
-        android:textSize="11dp"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="64dp" />
+        android:textSize="15dp"
+        android:textColor="#DC6C6C"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/workoutDifficulty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="84dp"
-        android:textSize="10dp"
+        android:layout_width="69dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginBottom="16dp"
+        android:textSize="12dp"
+        android:textColor="#E6D4D4"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/workoutTitle"
         tools:text="Placeholder" />
 
     <CheckBox

@@ -1,19 +1,28 @@
-package com.example.fitflow20.api
-
+import com.example.fitflow20.api.WorkoutListAPI
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class RetrofitInstance {
+object RetrofitInstance {
+    private const val BASE_URL = "https://exercises-by-api-ninjas.p.rapidapi.com/"
 
-    companion object {
-        private const val BASE_URL = "https://api.api-ninjas.com"
+    val api: WorkoutListAPI by lazy {
+        val client = OkHttpClient.Builder()
+            .addInterceptor { chain ->
+                val request = chain.request().newBuilder()
+                    .addHeader("X-RapidAPI-Key", "e58f7be579msh761583fe2fe4a3ap13fc1bjsn20885e1270a8")
+                    .addHeader("X-RapidAPI-Host", "exercises-by-api-ninjas.p.rapidapi.com")
+                    .build()
+                chain.proceed(request)
+            }
+            .build()
 
-        val api: WorkoutListAPI by lazy {
-            Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(WorkoutListAPI::class.java)
-        }
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        retrofit.create(WorkoutListAPI::class.java)
     }
 }

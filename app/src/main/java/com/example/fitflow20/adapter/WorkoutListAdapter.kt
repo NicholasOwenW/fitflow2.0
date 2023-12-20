@@ -38,13 +38,39 @@ class WorkoutListAdapter: RecyclerView.Adapter<WorkoutListAdapter.WorkoutViewHol
             false
         ))
     }
-    override fun onBindViewHolder(holder: WorkoutViewHolder, position: Int){
-        holder.binding.apply{
+
+    private val checkedWorkouts = ArrayList<Workout>()
+
+    // Callback to notify item click
+    private var onItemClickListener: ((Workout) -> Unit)? = null
+
+    // Setter for item click listener
+    fun setOnItemClickListener(listener: (Workout) -> Unit) {
+        onItemClickListener = listener
+    }
+
+    // Getter for checked items
+    fun getCheckedWorkouts(): List<Workout> {
+        return checkedWorkouts
+    }
+    override fun onBindViewHolder(holder: WorkoutViewHolder, position: Int) {
+        holder.binding.apply {
             val workout = workouts[position]
             workoutTitle.text = workout.name
             workoutDifficulty.text = workout.difficulty
             workoutMuscle.text = workout.muscle
 
+            workoutCB.setOnClickListener {
+                if (workoutCB.isChecked) {
+                    checkedWorkouts.add(workout)
+                } else {
+                    checkedWorkouts.remove(workout)
+                }
+
+                // Notify item click listener
+                onItemClickListener?.invoke(workout)
+
+            }
         }
     }
 }

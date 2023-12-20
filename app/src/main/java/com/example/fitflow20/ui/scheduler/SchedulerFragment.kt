@@ -10,7 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fitflow20.adapter.WorkoutListAdapter
-import com.example.fitflow20.api.RetrofitInstance
+import RetrofitInstance
+import android.widget.Button
+import android.widget.EditText
+import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
+import com.example.fitflow20.R
+import com.example.fitflow20.api.Workout
 import com.example.fitflow20.databinding.FragmentSchedulerBinding
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -22,13 +28,15 @@ class SchedulerFragment : Fragment() {
     private var _binding: FragmentSchedulerBinding? = null
     private val binding get() = _binding!!
 
-    private val todoAdapter by lazy { WorkoutListAdapter() }
+    private val workoutAdapter by lazy { WorkoutListAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
+
     ): View {
+        Log.e(TAG, "DI SINI MULAI ERROR")
         _binding = FragmentSchedulerBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -36,37 +44,70 @@ class SchedulerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
-        observeViewModel()
         setActionBarTitle("Workout Scheduler")
+        val selectedDay = arguments?.getString("selected_day")
+
+        val searchView = view.findViewById<SearchView>(R.id.searchbar)
+        val textColor = ContextCompat.getColor(requireContext(), R.color.main_green)
+        val searchEditText = searchView.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
+        searchEditText.setTextColor(textColor)
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                // Handle search when user submits the query (optional)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                // Handle search as the user types
+                if (newText != null) {
+                    observeViewModel(newText)
+                }
+                return true
+            }
+        })
+
+        val addBtn = view.findViewById<Button>(R.id.add_button)
+        addBtn.setOnClickListener(){
+            val ListofWorkouts: List<Workout> = getCheckedWorkouts()
+            val day = selectedDay
+
+            // TODO: MASUKIN LISTOFWORKOUTS SAMA DAY KE DATABASE
+
+        }
     }
 
     private fun setupRecyclerView() {
         binding.workoutrecycler.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = todoAdapter
+            adapter = workoutAdapter
         }
     }
 
-    private fun observeViewModel() {
+    fun getCheckedWorkouts(): List<Workout> {
+        return workoutAdapter.getCheckedWorkouts()
+    }
+
+
+    private fun observeViewModel(query: String) {
         lifecycleScope.launch {
+            val todoAdapter by lazy { WorkoutListAdapter() }
             binding.progressBar.isVisible = true
-            val response = try {
-                RetrofitInstance.api.getWorkout()
+            try {
+                val response = RetrofitInstance.api.getWorkout(query)
+                if (response.isSuccessful) {
+//                    workouts = response.body() ?: emptyList()
+                    workoutAdapter.workouts = response.body() ?: emptyList()
+                } else {
+                    Log.e(TAG, "Response not successful: ${response.code()}")
+                }
             } catch (e: IOException) {
                 Log.e(TAG, "IOException, you might not have an internet connection")
-                binding.progressBar.isVisible = false
-                return@launch
             } catch (e: HttpException) {
-                Log.e(TAG, "HttpException, unexpected response")
+                Log.e(TAG, "HttpException, unexpected response: ${e.code()}")
+            } finally {
                 binding.progressBar.isVisible = false
-                return@launch
             }
-            if (response.isSuccessful && response.body() != null) {
-                todoAdapter.workouts = response.body()!!
-            } else {
-                Log.e(TAG, "Response not successful")
-            }
-            binding.progressBar.isVisible = false
         }
     }
 
