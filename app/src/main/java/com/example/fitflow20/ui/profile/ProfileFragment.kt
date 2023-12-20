@@ -5,9 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import com.example.fitflow20.R
 import com.example.fitflow20.Users
+import com.example.fitflow20.databinding.FragmentHomeBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
@@ -28,6 +30,9 @@ class ProfileFragment : Fragment() {
     lateinit var auth: FirebaseAuth
     private lateinit var firebaseUser: FirebaseUser
 
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -38,6 +43,8 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        val root: View = binding.root
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
         auth = FirebaseAuth.getInstance()
         firebaseUser = FirebaseAuth.getInstance().currentUser!!
@@ -45,6 +52,11 @@ class ProfileFragment : Fragment() {
         val tv_isi_email = view.findViewById<TextView>(R.id.t_isi_email)
         val tv_isi_phone = view.findViewById<TextView>(R.id.t_isi_phone)
         userInfo()
+
+        //PROFILE UPDATE PHONE NUMBA
+        val editBtn: Button = binding.root.findViewById(R.id.edit_phone)
+
+
 
         return view
     }

@@ -60,6 +60,7 @@
             <TextView
                 android:id="@+id/t_isi_email"
                 android:layout_width="wrap_content"
+                android:textColor="@color/white"
                 android:layout_height="wrap_content"
                 android:text="Email"
                 android:textSize="18dp"/>
@@ -88,13 +89,29 @@
                 android:layout_marginTop="20dp"
                 android:textColor="@color/white"/>
 
-            <TextView
-                android:id="@+id/t_isi_phone"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Phone Number"
-                android:textSize="18dp"/>
+                android:orientation="horizontal">
 
+                <TextView
+                    android:id="@+id/t_isi_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:text="Phone Number"
+                    android:textSize="18dp"/>
+
+                <TextView
+                    android:id="@+id/edit_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="edit"
+                    android:gravity="end"
+                    android:textColor="@color/blue"
+                    android:textSize="18dp" />
+
+            </LinearLayout>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -103,29 +120,32 @@
         </LinearLayout>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_update"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Update"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_logout"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="36dp"
-        android:layout_marginRight="36dp"/>
-
-    <Button
-        android:id="@+id/btn_logout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="LogOut"
-        android:textSize="20dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="125dp"
-        android:layout_marginLeft="36dp"
-        android:layout_marginRight="36dp"/>
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="36dp"
+            android:layout_marginRight="36dp"
+            android:layout_marginBottom="30dp"
+            android:layout_gravity="center_horizontal"
+            android:paddingHorizontal="20dp"
+            android:backgroundTint="@color/red"
+            android:background="@drawable/shape"
+            android:textColor="@color/white"
+            android:text="Log Out"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </LinearLayout>
 
 
 
