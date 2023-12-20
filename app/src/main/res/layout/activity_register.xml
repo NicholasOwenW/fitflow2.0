@@ -69,6 +69,14 @@
             android:background="@drawable/shape"
             android:layout_marginTop="22dp"
             android:backgroundTint="@color/bg_green"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Login here"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            android:layout_marginTop="8dp"
+            android:id="@+id/login_text"/>
 
     </LinearLayout>
 </RelativeLayout>

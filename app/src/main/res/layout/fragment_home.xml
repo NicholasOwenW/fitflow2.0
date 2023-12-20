@@ -18,10 +18,11 @@
         />
 
     <TextView
+        android:id="@+id/current_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="200dp"
-        android:text="Date, Month, Year"
+        android:layout_marginStart="290dp"
+        android:text="00 00 0000"
         android:textColor="@color/main_green"
         android:textSize="20dp"
         android:layout_marginTop="65dp"
@@ -43,6 +44,7 @@
 
         <TextView
             android:layout_width="wrap_content"
+            android:id="@+id/current_day"
             android:padding="10dp"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
@@ -63,15 +65,36 @@
             android:paddingLeft="10dp"
             android:paddingBottom="10dp"
             android:textSize="20dp"
-            android:textColor="@color/red"
-            android:text="StatusHere: status" />
+            android:textColor="@color/white"
+            android:text="Status: " />
 
-        <ImageButton
+        <TextView
+            android:id="@+id/status_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:paddingLeft="80dp"
+            android:paddingBottom="10dp"
+            android:textSize="20dp"
+            android:textColor="@color/red"
+            android:text="undone" />
+
+        <TextView
+            android:id="@+id/time_counter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:paddingEnd="70dp"
+            android:textSize="20dp"
+            android:textColor="@color/white"
+            android:text="Start Now" />
+
+        <ImageView
+            android:id="@+id/play_button"
             android:layout_width="55dp"
             android:layout_height="55dp"
             android:layout_gravity="center_vertical|end"
             android:background="@drawable/baseline_play_circle_24"
-            android:backgroundTint="@color/main_green"
             android:layout_marginEnd="15dp"
             />
 

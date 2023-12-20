@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.database
+import org.w3c.dom.Text
 
 class RegisterActivity : AppCompatActivity() {
     lateinit var auth: FirebaseAuth
@@ -33,6 +34,12 @@ class RegisterActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
         ref = FirebaseDatabase.getInstance().getReference("USERS")
+
+        val loginIntentbtn = findViewById<TextView>(R.id.login_text)
+        loginIntentbtn.setOnClickListener() {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
 
         binding.btnRegister.setOnClickListener{
             val userNama = binding.etName.text.toString().trim()
