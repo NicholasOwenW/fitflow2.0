@@ -41,7 +41,6 @@ class HomeActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -53,5 +52,9 @@ class HomeActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_home)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    override fun onBackPressed() {
+        // Prevent going back by not calling the super method
     }
 }
