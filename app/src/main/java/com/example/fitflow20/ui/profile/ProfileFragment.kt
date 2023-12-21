@@ -82,6 +82,7 @@ class ProfileFragment : Fragment() {
         val logoutBtn = view.findViewById<Button>(R.id.btn_logout)
 
         logoutBtn.setOnClickListener() {
+            auth.signOut()
             val intent = Intent(requireContext(), MainActivity::class.java)
             startActivity(intent)
         }
