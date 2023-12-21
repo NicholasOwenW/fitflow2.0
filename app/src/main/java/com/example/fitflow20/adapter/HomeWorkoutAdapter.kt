@@ -4,13 +4,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitflow20.R
 import com.example.fitflow20.api.Workout
 
 
 class HomeWorkoutAdapter(var wOutList: MutableList<Workout>): RecyclerView.Adapter<HomeWorkoutAdapter.HomeViewHolder>(){
+    private val _refreshEvent = MutableLiveData<Unit>()
+    val refreshEvent: LiveData<Unit> get() = _refreshEvent
 
+    fun triggerRefresh() {
+        _refreshEvent.value = Unit
+    }
     class HomeViewHolder(itemView : View): RecyclerView.ViewHolder(itemView){
         val workoutName : TextView = itemView.findViewById(R.id.item_WorkoutTitle)
 //        val workoutMuscle : TextView = itemView.findViewById(R.id.item_muscleType)

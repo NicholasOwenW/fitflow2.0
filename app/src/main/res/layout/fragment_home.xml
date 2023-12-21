@@ -8,16 +8,6 @@
     tools:context=".HomeActivity">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:text="Today's Plan:"
-        android:textColor="@color/white"
-        android:textSize="25dp"
-        android:layout_marginTop="60dp"
-        />
-
-    <TextView
         android:id="@+id/current_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -111,6 +101,21 @@
         android:layout_marginTop="260dp"
         android:text="Today's Schedule"
         android:textColor="@color/white"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/refbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="338dp"
+        android:layout_marginEnd="17dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        app:srcCompat="@drawable/refresh"
+        android:backgroundTint="@color/main_green"/>
+
     <View
         android:layout_width="300dp"
         android:layout_marginLeft="60dp"
@@ -120,12 +125,11 @@
         android:layout_marginTop="300dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/homeList"
+        android:id="@+id/homeList"
+        android:layout_width="match_parent"
+        android:layout_height="567dp"
         android:layout_marginTop="320dp"
-        android:paddingHorizontal="10dp"
-    android:layout_width="match_parent"
-    android:layout_height="567dp"
- />
+        android:paddingHorizontal="10dp" />
 
     <TextView
         android:id="@+id/time_counter"
@@ -140,5 +144,14 @@
         android:text="Start Now"
         android:textColor="@color/white"
         android:textSize="15dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="60dp"
+        android:text="Today's Plan:"
+        android:textColor="@color/white"
+        android:textSize="25dp" />
 
 </RelativeLayout>

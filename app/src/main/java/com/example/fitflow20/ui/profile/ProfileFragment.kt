@@ -101,7 +101,7 @@ class ProfileFragment : Fragment() {
 
     private fun loadProfileImage() {
         val imageRef = FirebaseStorage.getInstance("gs://fitflow-id.appspot.com")
-            .reference.child("img/${FirebaseAuth.getInstance().currentUser?.uid}")
+            .reference.child("img/${FirebaseAuth.getInstance().currentUser?.uid}.jpg")
 
         imageRef.downloadUrl.addOnCompleteListener {
             it.result?.let { uri ->
@@ -240,9 +240,10 @@ class ProfileFragment : Fragment() {
     }
 
     private fun uploadImage(imgBitmap: Bitmap) {
+
         val baos = ByteArrayOutputStream()
         val ref =
-            FirebaseStorage.getInstance("gs://fitflow-id.appspot.com").reference.child("img/${FirebaseAuth.getInstance().currentUser?.uid}")
+            FirebaseStorage.getInstance("gs://fitflow-id.appspot.com").reference.child("img/${FirebaseAuth.getInstance().currentUser?.uid}.jpg")
 
         imgBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
         val image = baos.toByteArray()

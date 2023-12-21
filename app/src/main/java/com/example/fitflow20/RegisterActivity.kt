@@ -2,13 +2,19 @@ package com.example.fitflow20
 
 import android.app.ProgressDialog
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.example.fitflow20.databinding.ActivityRegisterBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import java.io.ByteArrayOutputStream
 
 class RegisterActivity : AppCompatActivity() {
     lateinit var auth: FirebaseAuth
@@ -79,7 +85,7 @@ class RegisterActivity : AppCompatActivity() {
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this){
             if(it.isSuccessful){
                 saveUser(email, phoneNumber, userNama, workoutDays, progressDialog)
-            }else{
+            } else {
                 val message = it.exception!!.toString()
                 Toast.makeText(this, "Error: $message", Toast.LENGTH_SHORT).show()
             }
@@ -102,15 +108,40 @@ class RegisterActivity : AppCompatActivity() {
         userMap["phoneNumber"] = phoneNumber
         userMap["workoutDays"] = workoutDays
 
+        val resourceId = resources.getIdentifier("pfp", "drawable", packageName)
+        val drawable = ContextCompat.getDrawable(this, resourceId)
+        val bitmap = (drawable as BitmapDrawable).bitmap
+        val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val data = baos.toByteArray()
+
+        // Debugging: Output the currentUserId
+        println("Current User ID: $currentUserId")
+
+        val imgref = FirebaseStorage.getInstance("gs://fitflow-id.appspot.com")
+            .reference
+            .child("img/$currentUserId.jpg")
+
+        imgref.putBytes(data)
+            .addOnSuccessListener {
+                // Debugging: Log success message
+            }
+            .addOnFailureListener { e ->
+                // Debugging: Log failure message and exception
+                println("Image Upload Failed: ${e.message}")
+            }
+
         ref.child(currentUserId).setValue(userMap).addOnCompleteListener {
             if(it.isSuccessful){
                 progressDialog.dismiss()
-                Toast.makeText(this, "Register is Successful", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this, "Register is Successful", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this@RegisterActivity, HomeActivity :: class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
-            }else{
+            } else {
                 val message = it.exception!!.toString()
+                // Debugging: Log error message
+                println("Error: $message")
                 Toast.makeText(this, "Error: $message", Toast.LENGTH_SHORT).show()
                 progressDialog.dismiss()
             }

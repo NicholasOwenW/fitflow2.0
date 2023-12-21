@@ -2,9 +2,15 @@ package com.example.fitflow20.ui.home
 
 import android.Manifest
 import android.app.Dialog
+import android.content.ContentValues
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.os.Environment
 import android.os.Handler
 import android.os.Looper
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,34 +19,25 @@ import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitflow20.R
 import com.example.fitflow20.adapter.HomeWorkoutAdapter
-
 import com.example.fitflow20.api.Workout
 import com.example.fitflow20.databinding.FragmentHomeBinding
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.database.GenericTypeIndicator
 import java.text.SimpleDateFormat
 import java.util.*
-
-import android.content.ContentValues
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.graphics.Bitmap
-
-import android.os.Environment
-
-import android.provider.MediaStore
-
-import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import com.example.fitflow20.ui.profile.ProfileFragment.Companion.REQUEST_CAMERA
-
 
 class HomeFragment : Fragment() {
 
@@ -52,12 +49,25 @@ class HomeFragment : Fragment() {
     private lateinit var homeRecyclerView: RecyclerView
     private lateinit var workoutHomeList: MutableList<Workout>
     private val homeAdapter: HomeWorkoutAdapter by lazy { HomeWorkoutAdapter(workoutHomeList) }
+    private lateinit var homeViewModel: HomeViewModel
+    private var isFragmentFirstLoad = true
+
 
     private lateinit var handler: Handler
     private var isOngoing: Boolean = false
     private var timeRun: Long = 0L
     private var isDone: Boolean = false
 
+//    val HomeViewModel by lazy {
+//        activity?.let {
+//            ViewModelProvider(it).get(HomeViewModel::class.java)
+//        } ?: throw IllegalStateException("Invalid Activity")
+//    }
+    private fun refreshFragment() {
+        // Add your logic to refresh data or perform any necessary actions
+        getHomeWorkout()
+    findNavController().navigate(R.id.action_nav_home_self)
+    }
     private val updateCounterRunnable = object : Runnable {
         override fun run() {
             if (isOngoing) {
@@ -67,7 +77,9 @@ class HomeFragment : Fragment() {
             }
         }
     }
-
+//    private val homeViewModel: HomeViewModel by lazy {
+//        ViewModelProvider(this).get(HomeViewModel::class.java)
+//    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -75,7 +87,7 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
+        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         val Red = resources.getColor(R.color.red)
         val White = resources.getColor(R.color.white)
         val Green = resources.getColor(R.color.main_green)
@@ -118,13 +130,34 @@ class HomeFragment : Fragment() {
         return root
     }
 
+//    override fun onResume() {
+//        super.onResume()
+//
+//        // If the fragment is being resumed after being in the background, trigger refresh
+//        if (!isFragmentFirstLoad) {
+//            homeViewModel.triggerRefresh()
+//        }
+//    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        workoutHomeList = mutableListOf() // Initialize workoutHomeList here
+        homeViewModel.refreshEvent.observe(viewLifecycleOwner) {
+            // Handle the refresh event here
+            // Update UI or perform any action needed for refresh
+            getHomeWorkout()
+        }
         homeRecyclerView = binding.homeList
-        homeRecyclerView.layoutManager = LinearLayoutManager(requireContext())  // Add this line
-        workoutHomeList = mutableListOf<Workout>()
+        homeRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        homeRecyclerView.adapter = homeAdapter // Set the adapter here
+
         getHomeWorkout()
 
+        val refreshBtn = view.findViewById<FloatingActionButton>(R.id.refbtn)
+        refreshBtn.setOnClickListener(){
+            refreshFragment()
+        }
     }
 
     private fun workoutActive() {
@@ -214,7 +247,10 @@ class HomeFragment : Fragment() {
         return daysArray[dayOfWeek - 1]
 
     }
-
+//    override fun onResume() {
+//        super.onResume()
+//        getHomeWorkout()
+//    }
     // Inside the HomeFragment class
     private fun getHomeWorkout() {
         auth = FirebaseAuth.getInstance()
@@ -256,14 +292,13 @@ class HomeFragment : Fragment() {
                                     type = type        // Set the type from the database
                                 )
                             )
+
+                            // Log the contents of the added Workout item
+                            Log.d("WorkoutData", "Added Workout item: $exercise, Type: $type")
                         }
                     }
                     Log.d("WorkoutData", "Workout list: $workoutHomeList")
-                    homeRecyclerView.adapter = homeAdapter
-                    Log.d("WorkoutData", "Adapter items count: ${homeRecyclerView.adapter?.itemCount}")
-                    (homeRecyclerView.adapter as? HomeWorkoutAdapter)?.wOutList?.let {
-                        Log.d("WorkoutData", "Adapter items: $it")
-                    }
+                    homeAdapter.notifyDataSetChanged()
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -306,9 +341,6 @@ class HomeFragment : Fragment() {
             Log.e("HomeFragment", "Error saving image to gallery: ${e.message}")
         }
     }
-
-
-
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -357,9 +389,9 @@ class HomeFragment : Fragment() {
             }
         }
     }
+
     companion object {
         const val REQUEST_CAMERA = 100
         const val CAMERA_PERMISSION_CODE = 101
     }
 }
-

@@ -21,11 +21,14 @@ import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import com.example.fitflow20.HomeActivity
 import com.example.fitflow20.R
 import com.example.fitflow20.api.Workout
 import com.example.fitflow20.databinding.ActivityRegisterBinding
 import com.example.fitflow20.databinding.FragmentSchedulerBinding
+import com.example.fitflow20.ui.home.HomeViewModel
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -37,13 +40,19 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 class SchedulerFragment : Fragment() {
-
+    private val homeViewModel: HomeViewModel by activityViewModels()
     lateinit var auth: FirebaseAuth
     lateinit var ref: DatabaseReference
     private var _binding: FragmentSchedulerBinding? = null
     private val binding get() = _binding!!
 
     private val workoutAdapter by lazy { WorkoutListAdapter() }
+
+//    private val HomeViewModel by lazy {
+//        activity?.let {
+//            ViewModelProvider(it).get(HomeViewModel::class.java)
+//        } ?: throw IllegalStateException("Invalid Activity")
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -104,22 +113,22 @@ class SchedulerFragment : Fragment() {
             val userWorkoutsRef = ref.child(day)
 
             // Convert the list of Workout objects to a list of strings
-            val workoutData = workouts.map { workout ->
-                mapOf(
-                    "name" to workout.name,
-                    "type" to workout.type
-                )
-            }
+            val workoutNames = workouts.map { it.name }
 
-            userWorkoutsRef.setValue(workoutData).addOnCompleteListener {
+            userWorkoutsRef.setValue(workoutNames).addOnCompleteListener {
                 if (it.isSuccessful) {
-                    Toast.makeText(requireContext(), "Changes applied to $day", Toast.LENGTH_SHORT).show()
+                    triggerRefresh()
+//                    HomeViewModel.updateWorkouts(workouts)
+                    Toast.makeText(requireContext(), "Workouts saved for $day", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(requireContext(), "Failed to apply changes", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Failed to save workouts", Toast.LENGTH_SHORT).show()
                     Log.e(TAG, "Failed to save workouts: ${it.exception}")
                 }
             }
         }
+    }
+    private fun triggerRefresh() {
+        homeViewModel.triggerRefresh()
     }
 
 
