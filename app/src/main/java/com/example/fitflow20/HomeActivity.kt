@@ -55,6 +55,6 @@ class HomeActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
+        // Prevent going back by not calling the super method
     }
 }

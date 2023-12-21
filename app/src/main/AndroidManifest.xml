@@ -3,6 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools" >
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+
 
     <application
         android:allowBackup="true"
@@ -14,11 +21,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Fitflow20.NoActionBar"
         tools:targetApi="31" >
-
-        <service
-            android:name=".ui.home.TimerService"
-            android:enabled="true"
-            android:exported="false" />
 
 
         <activity

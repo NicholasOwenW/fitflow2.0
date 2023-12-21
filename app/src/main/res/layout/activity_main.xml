@@ -28,6 +28,7 @@
         <EditText
             android:textColor="@color/black"
             android:padding="8dp"
+            android:drawableStart="@drawable/post_office_24"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
@@ -47,6 +48,7 @@
             android:textColor="@color/black"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
+            android:drawableStart="@drawable/baseline_lock_24"
             android:inputType="textPassword"
             android:hint="Password"
             android:background="@drawable/shape_edittext"

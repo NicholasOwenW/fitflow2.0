@@ -6,8 +6,13 @@ import androidx.lifecycle.ViewModel
 
 class HomeViewModel : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
+    val currentOngoing : MutableLiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>()
     }
-    val text: LiveData<String> = _text
+    val currentDone : MutableLiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>()
+    }
+    val currentTime : MutableLiveData<Long> by lazy {
+        MutableLiveData<Long>()
+    }
 }

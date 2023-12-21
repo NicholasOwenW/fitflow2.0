@@ -1,9 +1,11 @@
 package com.example.fitflow20.ui.profile
 
 import Users
+import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.app.Dialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
@@ -16,6 +18,9 @@ import android.view.Window
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.fitflow20.MainActivity
@@ -43,6 +48,7 @@ class ProfileFragment : Fragment() {
 
     companion object {
         const val REQUEST_CAMERA = 100
+        const val CAMERA_PERMISSION_CODE = 101
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,6 +82,7 @@ class ProfileFragment : Fragment() {
         val logoutBtn = view.findViewById<Button>(R.id.btn_logout)
 
         logoutBtn.setOnClickListener() {
+            auth.signOut()
             val intent = Intent(requireContext(), MainActivity::class.java)
             startActivity(intent)
         }
@@ -83,7 +90,7 @@ class ProfileFragment : Fragment() {
         imgUser = view.findViewById(R.id.imgUser)
 
         imgUser.setOnClickListener {
-            intentCamera()
+            checkCameraPermission()
         }
 
         // Load user profile image
@@ -108,6 +115,21 @@ class ProfileFragment : Fragment() {
         }
     }
 
+    private fun checkCameraPermission() {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            intentCamera()
+        } else {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.CAMERA),
+                CAMERA_PERMISSION_CODE
+            )
+        }
+    }
 
 
     private fun showCustomDialogBoxConfirm() {
@@ -236,5 +258,25 @@ class ProfileFragment : Fragment() {
                     }
                 }
             }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == CAMERA_PERMISSION_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                intentCamera()
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "Camera permission denied. Unable to take a photo.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 }
