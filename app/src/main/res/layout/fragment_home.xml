@@ -5,7 +5,7 @@
     android:background="@drawable/nav_header_bg"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.HomeFragment">
+    tools:context=".HomeActivity">
 
     <TextView
         android:layout_width="wrap_content"
