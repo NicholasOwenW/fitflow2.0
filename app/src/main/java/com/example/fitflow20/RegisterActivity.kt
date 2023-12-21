@@ -4,6 +4,7 @@ import android.app.ProgressDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.TextView
 import android.widget.Toast
 import com.example.fitflow20.databinding.ActivityRegisterBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -22,6 +23,13 @@ class RegisterActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
         ref = FirebaseDatabase.getInstance().getReference("USERS")
+
+        val logint = binding.loginText.findViewById<TextView>(R.id.login_text)
+
+        logint.setOnClickListener() {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
 
         binding.btnRegister.setOnClickListener{
             val userNama = binding.etName.text.toString().trim()
