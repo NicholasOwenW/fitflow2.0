@@ -19,13 +19,22 @@
 
     <fragment
         android:id="@+id/nav_scheduler"
-        android:name="com.example.fitflow20.ui.scheduler.SchedulerFragment"
+        android:name="com.example.fitflow20.ui.scheduler.SchedulerMenuFragment"
         android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_scheduler" />
+        tools:layout="@layout/fragment_scheduler_menu" >
+        <action
+            android:id="@+id/action_nav_scheduler_to_schedulerFragment"
+            app:destination="@id/schedulerFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_profile"
         android:name="com.example.fitflow20.ui.profile.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/schedulerFragment"
+        android:name="com.example.fitflow20.ui.scheduler.SchedulerFragment"
+        android:label="fragment_scheduler"
+        tools:layout="@layout/fragment_scheduler" />
 </navigation>
