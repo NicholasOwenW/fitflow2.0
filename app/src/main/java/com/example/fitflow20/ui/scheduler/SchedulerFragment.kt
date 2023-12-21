@@ -14,10 +14,12 @@ import com.example.fitflow20.adapter.WorkoutListAdapter
 import RetrofitInstance
 import android.app.ProgressDialog
 import android.content.Intent
+import android.graphics.Color
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import com.example.fitflow20.HomeActivity
 import com.example.fitflow20.R
@@ -80,6 +82,7 @@ class SchedulerFragment : Fragment() {
             }
         })
 
+
         val addBtn = view.findViewById<Button>(R.id.add_button)
         addBtn.setOnClickListener() {
             val selectedDay = arguments?.getString("selected_day")
@@ -105,9 +108,9 @@ class SchedulerFragment : Fragment() {
 
             userWorkoutsRef.setValue(workoutNames).addOnCompleteListener {
                 if (it.isSuccessful) {
-                    Toast.makeText(requireContext(), "Workouts saved for $day", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Changes applied to $day", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(requireContext(), "Failed to save workouts", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Failed to apply changes", Toast.LENGTH_SHORT).show()
                     Log.e(TAG, "Failed to save workouts: ${it.exception}")
                 }
             }
@@ -160,6 +163,6 @@ class SchedulerFragment : Fragment() {
     }
 
     companion object {
-        private const val TAG = "SchedulerFragment"
+        const val TAG = "SchedulerFragment"
     }
 }

@@ -1,13 +1,19 @@
 package com.example.fitflow20.ui.scheduler
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.navigation.fragment.findNavController
 import com.example.fitflow20.R
+import com.example.fitflow20.api.Workout
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,6 +30,8 @@ class SchedulerMenuFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var auth: FirebaseAuth
+    lateinit var ref: DatabaseReference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -42,6 +50,8 @@ class SchedulerMenuFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        //DAY BUTTON
 
         val cardMonday = view.findViewById<CardView>(R.id.mondayCard)
         cardMonday.setOnClickListener() {
@@ -71,6 +81,45 @@ class SchedulerMenuFragment : Fragment() {
         cardSunday.setOnClickListener() {
             openSchedulerFragment("Sunday")
         }
+
+        //DELETE BUTTON
+
+        val deleteBtn_monday = view.findViewById<CardView>(R.id.delete_btn_monday)
+        deleteBtn_monday.setOnClickListener(){
+            val emptyWorkoutList: List<Workout> = emptyList()
+            saveWorkoutsForDay("Monday", emptyWorkoutList)
+        }
+        val deleteBtn_tuesday = view.findViewById<CardView>(R.id.delete_btn_tuesday)
+        deleteBtn_tuesday.setOnClickListener(){
+            val emptyWorkoutList: List<Workout> = emptyList()
+            saveWorkoutsForDay("Tuesday", emptyWorkoutList)
+        }
+        val deleteBtn_wednesday = view.findViewById<CardView>(R.id.delete_btn_wednesday)
+        deleteBtn_wednesday.setOnClickListener(){
+            val emptyWorkoutList: List<Workout> = emptyList()
+            saveWorkoutsForDay("Wednesday", emptyWorkoutList)
+        }
+        val deleteBtn_thursday = view.findViewById<CardView>(R.id.delete_btn_thursday)
+
+        deleteBtn_thursday.setOnClickListener(){
+            val emptyWorkoutList: List<Workout> = emptyList()
+            saveWorkoutsForDay("Thursday", emptyWorkoutList)
+        }
+        val deleteBtn_friday = view.findViewById<CardView>(R.id.delete_btn_friday)
+        deleteBtn_friday.setOnClickListener(){
+            val emptyWorkoutList: List<Workout> = emptyList()
+            saveWorkoutsForDay("Friday", emptyWorkoutList)
+        }
+        val deleteBtn_saturday = view.findViewById<CardView>(R.id.delete_btn_saturday)
+        deleteBtn_saturday.setOnClickListener(){
+            val emptyWorkoutList: List<Workout> = emptyList()
+            saveWorkoutsForDay("Saturday", emptyWorkoutList)
+        }
+        val deleteBtn_sunday = view.findViewById<CardView>(R.id.delete_btn_sunday)
+        deleteBtn_sunday.setOnClickListener(){
+            val emptyWorkoutList: List<Workout> = emptyList()
+            saveWorkoutsForDay("Sunday", emptyWorkoutList)
+        }
     }
 
     private fun openSchedulerFragment(day: String) {
@@ -82,6 +131,29 @@ class SchedulerMenuFragment : Fragment() {
         val navController = findNavController()
         navController.navigate(R.id.schedulerFragment, schedulerFragment.arguments)
 
+    }
+
+    private fun saveWorkoutsForDay(day: String, workouts: List<Workout>) {
+        auth = FirebaseAuth.getInstance()
+        val currentUserId = auth.currentUser?.uid
+
+        if (currentUserId != null) {
+            ref = FirebaseDatabase.getInstance("https://fitflow-id-default-rtdb.asia-southeast1.firebasedatabase.app/")
+                .reference.child("USERS").child(currentUserId).child("workoutDays")
+            val userWorkoutsRef = ref.child(day)
+
+            // Convert the list of Workout objects to a list of strings
+            val workoutNames = workouts.map { it.name }
+
+            userWorkoutsRef.setValue(workoutNames).addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Toast.makeText(requireContext(), "Workout schedule for $day successfully deleted", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(requireContext(), "Workout schedule failed to be deleted", Toast.LENGTH_SHORT).show()
+                    Log.e(SchedulerFragment.TAG, "Error: ${it.exception}")
+                }
+            }
+        }
     }
 
     companion object {
