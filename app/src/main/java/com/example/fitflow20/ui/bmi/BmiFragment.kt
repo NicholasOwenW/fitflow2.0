@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.fitflow20.R
@@ -30,6 +31,9 @@ class BmiFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (activity != null) {
+            (activity as AppCompatActivity?)!!.supportActionBar!!.title = "BMI Calculator"
+        }
 
         binding.weightPicker.minValue = 30
         binding.weightPicker.maxValue = 150
