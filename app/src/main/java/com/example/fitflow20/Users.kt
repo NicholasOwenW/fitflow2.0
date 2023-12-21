@@ -1,3 +1,7 @@
-package com.example.fitflow20
-
-data class Users(val username: String? = null)
+data class Users(
+    val id: String = "",
+    val userNama: String = "",
+    val email: String = "",
+    val phoneNumber: String = "",
+    val workoutDays: Map<String, List<String>> = emptyMap()
+)

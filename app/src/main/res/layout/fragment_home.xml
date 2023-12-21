@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/nav_header_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomeActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="Today's Plan:"
+        android:textColor="@color/white"
+        android:textSize="25dp"
+        android:layout_marginTop="60dp"
+        />
+
+    <TextView
+        android:id="@+id/current_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="290dp"
+        android:text="00 00 0000"
+        android:textColor="@color/main_green"
+        android:textSize="20dp"
+        android:layout_marginTop="65dp"
+        />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginTop="105dp"
+        android:layout_marginHorizontal="20dp">
+
+        <ImageView
+            android:src="@drawable/nav_header_bg"
+            android:background="@drawable/outline_white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:layout_margin="2dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/current_day"
+            android:padding="10dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="dayHere" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="27dp"
+            android:paddingLeft="10dp"
+            android:text="WorkoutTitleHere"
+            android:textColor="@color/main_green" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:paddingLeft="10dp"
+            android:paddingBottom="10dp"
+            android:textSize="20dp"
+            android:textColor="@color/white"
+            android:text="Status: " />
+
+        <TextView
+            android:id="@+id/status_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:paddingLeft="80dp"
+            android:paddingBottom="10dp"
+            android:textSize="20dp"
+            android:textColor="@color/red"
+            android:text="undone" />
+
+        <TextView
+            android:id="@+id/time_counter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:paddingEnd="70dp"
+            android:textSize="20dp"
+            android:textColor="@color/white"
+            android:text="Start Now" />
+
+        <ImageView
+            android:id="@+id/play_button"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_gravity="center_vertical|end"
+            android:background="@drawable/baseline_play_circle_24"
+            android:layout_marginEnd="15dp"
+            />
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="25dp"
+        android:layout_marginTop="260dp"
+        android:text="Your Weekly Schedule"
+        android:textColor="@color/white"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="320dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginHorizontal="20dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </ScrollView>
+
+</RelativeLayout>

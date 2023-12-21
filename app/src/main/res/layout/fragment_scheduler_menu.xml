@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.scheduler.SchedulerMenuFragment"
+    android:background="@drawable/nav_header_bg"
+    android:orientation="vertical"
+    android:id="@+id/schedmenuFragment">
+
+
+    <TextView
+        android:id="@+id/daysTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="28dp"
+        android:textColor="#CFCDB1"
+        android:text="Please Select a Day to Modify"
+        android:textStyle="bold"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"
+        android:background="#1D1E1D"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="#394039"
+        android:layout_marginBottom="12dp"/>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/mondayCard"
+        android:layout_width="380dp"
+        android:layout_height="75dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:backgroundTint="#1F1F20"
+        app:cardCornerRadius="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Monday"
+            android:textSize="35sp"
+            android:textColor="@color/main_green"
+            android:layout_gravity="center"/>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/tuesdayCard"
+        android:layout_width="380dp"
+        android:layout_height="75dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:backgroundTint="#1F1F20"
+        app:cardCornerRadius="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tuesday"
+            android:textSize="35sp"
+            android:textColor="@color/main_green"
+            android:layout_gravity="center"/>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/wednesdayCard"
+        android:layout_width="380dp"
+        android:layout_height="75dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:backgroundTint="#1F1F20"
+        app:cardCornerRadius="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Wednesday"
+            android:textSize="35sp"
+            android:textColor="@color/main_green"
+            android:layout_gravity="center"/>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/thursdayCard"
+        android:layout_width="380dp"
+        android:layout_height="75dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:backgroundTint="#1F1F20"
+        app:cardCornerRadius="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thursday"
+            android:textSize="35sp"
+            android:textColor="@color/main_green"
+            android:layout_gravity="center"/>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/fridayCard"
+        android:layout_width="380dp"
+        android:layout_height="75dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:backgroundTint="#1F1F20"
+        app:cardCornerRadius="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Friday"
+            android:textSize="35sp"
+            android:textColor="@color/main_green"
+            android:layout_gravity="center"/>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/saturdayCard"
+        android:layout_width="380dp"
+        android:layout_height="75dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:backgroundTint="#1F1F20"
+        app:cardCornerRadius="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Saturday"
+            android:textSize="35sp"
+            android:textColor="@color/main_green"
+            android:layout_gravity="center"/>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/sundayCard"
+        android:layout_width="380dp"
+        android:layout_height="75dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:backgroundTint="#1F1F20"
+        app:cardCornerRadius="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sunday"
+            android:textSize="35sp"
+            android:textColor="@color/main_green"
+            android:layout_gravity="center"/>
+    </androidx.cardview.widget.CardView>
+
+
+
+
+
+</LinearLayout>
