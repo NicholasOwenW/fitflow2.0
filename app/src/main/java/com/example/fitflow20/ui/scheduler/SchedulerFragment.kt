@@ -104,9 +104,14 @@ class SchedulerFragment : Fragment() {
             val userWorkoutsRef = ref.child(day)
 
             // Convert the list of Workout objects to a list of strings
-            val workoutNames = workouts.map { it.name }
+            val workoutData = workouts.map { workout ->
+                mapOf(
+                    "name" to workout.name,
+                    "type" to workout.type
+                )
+            }
 
-            userWorkoutsRef.setValue(workoutNames).addOnCompleteListener {
+            userWorkoutsRef.setValue(workoutData).addOnCompleteListener {
                 if (it.isSuccessful) {
                     Toast.makeText(requireContext(), "Changes applied to $day", Toast.LENGTH_SHORT).show()
                 } else {

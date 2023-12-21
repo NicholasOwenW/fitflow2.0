@@ -1,5 +1,6 @@
 package com.example.fitflow20.ui.home
 
+import android.Manifest
 import android.app.Dialog
 import android.os.Bundle
 import android.os.Handler
@@ -17,7 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitflow20.R
 import com.example.fitflow20.adapter.HomeWorkoutAdapter
-import com.example.fitflow20.adapter.WorkoutListAdapter
+
 import com.example.fitflow20.api.Workout
 import com.example.fitflow20.databinding.FragmentHomeBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -25,6 +26,21 @@ import com.google.firebase.database.*
 import com.google.firebase.database.GenericTypeIndicator
 import java.text.SimpleDateFormat
 import java.util.*
+
+import android.content.ContentValues
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+
+import android.os.Environment
+
+import android.provider.MediaStore
+
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import com.example.fitflow20.ui.profile.ProfileFragment.Companion.REQUEST_CAMERA
+
 
 class HomeFragment : Fragment() {
 
@@ -85,6 +101,10 @@ class HomeFragment : Fragment() {
                 val message = "Are you done with your workout?"
                 showCustomDialogBoxConfirm(message) {
                     workoutActive()
+                    val message = "Do you want to take a selfie to record your progress?"
+                    showCustomDialogBoxConfirm(message) {
+                        checkCameraPermission()
+                    }
                 }
 
             } else if (isDone) {
@@ -192,8 +212,10 @@ class HomeFragment : Fragment() {
         val daysArray =
             arrayOf("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
         return daysArray[dayOfWeek - 1]
+
     }
 
+    // Inside the HomeFragment class
     private fun getHomeWorkout() {
         auth = FirebaseAuth.getInstance()
         val currentUserId = auth.currentUser?.uid
@@ -219,6 +241,11 @@ class HomeFragment : Fragment() {
 
                         // Create a Workout object for each exercise in the current day
                         exercisesForCurrentDay?.forEach { exercise ->
+                            // Get the type for the current exercise
+                            val typeReference = snapshot.child(currentDay).child(exercise)
+                                .child("type")
+                            val type = typeReference.getValue(String::class.java) ?: ""
+
                             workoutHomeList.add(
                                 Workout(
                                     difficulty = "",  // Set the actual value
@@ -226,7 +253,7 @@ class HomeFragment : Fragment() {
                                     instructions = "", // Set the actual value
                                     muscle = "",       // Set the actual value
                                     name = exercise,
-                                    type = ""        // Set the actual value
+                                    type = type        // Set the type from the database
                                 )
                             )
                         }
@@ -246,4 +273,93 @@ class HomeFragment : Fragment() {
             })
         }
     }
+
+    private fun intentCamera() {
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { intent ->
+            activity?.packageManager?.let {
+                intent.resolveActivity(it).also {
+                    startActivityForResult(intent, REQUEST_CAMERA)
+                }
+            }
+        }
+    }
+
+    private fun saveImageToGallery(bitmap: Bitmap?) {
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val fileName = "IMG_$timeStamp.jpg"
+
+        val resolver = requireContext().contentResolver
+        val contentValues = ContentValues().apply {
+            put(MediaStore.Images.Media.DISPLAY_NAME, fileName)
+            put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+            put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_DCIM + "/fitflow2.0") // Use your app's directory
+        }
+
+        val imageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+
+        try {
+            resolver.openOutputStream(imageUri!!)?.use { outputStream ->
+                bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+            }
+            Toast.makeText(requireContext(), "Image saved to gallery", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            Log.e("HomeFragment", "Error saving image to gallery: ${e.message}")
+        }
+    }
+
+
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == CAMERA_PERMISSION_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                intentCamera()
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "Camera permission denied. Unable to take a photo.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+
+    private fun checkCameraPermission() {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            intentCamera()
+        } else {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.CAMERA),
+                CAMERA_PERMISSION_CODE
+            )
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == REQUEST_CAMERA && resultCode == androidx.appcompat.app.AppCompatActivity.RESULT_OK) {
+            val imageBitmap = data?.extras?.get("data") as Bitmap?
+            if (imageBitmap != null) {
+                saveImageToGallery(imageBitmap)
+            } else {
+                Toast.makeText(requireContext(), "Error capturing image", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+    companion object {
+        const val REQUEST_CAMERA = 100
+        const val CAMERA_PERMISSION_CODE = 101
+    }
 }
+

@@ -41,6 +41,7 @@ android {
 
 dependencies {
 
+    implementation("de.hdodenhof:circleimageview:3.1.0")
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("com.github.bumptech.glide:glide:4.12.0")
     implementation("com.github.bumptech.glide:compiler:4.12.0")
@@ -68,6 +69,7 @@ dependencies {
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+    implementation("de.hdodenhof:circleimageview:3.1.0")
 
 
 }

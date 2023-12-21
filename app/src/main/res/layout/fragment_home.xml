@@ -32,31 +32,45 @@
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:layout_marginTop="105dp"
-        android:layout_marginHorizontal="20dp">
+        app:cardBackgroundColor="#1A1C19"
+        android:layout_marginHorizontal="20dp"
+        app:cardCornerRadius="20dp">
+
+        <!--        <ImageView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_margin="2dp"-->
+<!--            android:layout_marginStart="2dp"-->
+<!--            android:layout_marginTop="2dp"-->
+<!--            android:layout_marginEnd="2dp"-->
+<!--            android:layout_marginBottom="2dp"-->
+<!--            android:background="@drawable/outline_white"-->
+<!--            android:scaleType="fitXY"-->
+<!--            android:src="@drawable/nav_header_bg" />-->
 
         <ImageView
-            android:src="@drawable/nav_header_bg"
-            android:background="@drawable/outline_white"
+            android:id="@+id/cardbg"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitXY"
-            android:layout_margin="2dp"/>
+            android:layout_height="190dp"
+            android:paddingRight="70dp"
+            android:src="@drawable/cardbg2" />
 
         <TextView
             android:layout_width="wrap_content"
             android:id="@+id/current_day"
             android:padding="10dp"
+            android:layout_marginLeft="20dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:textColor="@color/main_green"
             android:text="dayHere" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="27dp"
-            android:paddingLeft="10dp"
-            android:text="WorkoutTitleHere"
-            android:textColor="@color/main_green" />
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:paddingTop="27dp"-->
+<!--            android:paddingLeft="10dp"-->
+<!--            android:text="WorkoutTitleHere"-->
+<!--            android:textColor="@color/main_green" />-->
 
         <TextView
             android:layout_width="wrap_content"
@@ -64,30 +78,19 @@
             android:layout_gravity="bottom"
             android:paddingLeft="10dp"
             android:paddingBottom="10dp"
-            android:textSize="20dp"
-            android:textColor="@color/white"
-            android:text="Status: " />
+            android:text="Status: "
+            android:textColor="#F36863"/>
 
         <TextView
             android:id="@+id/status_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:paddingLeft="80dp"
+            android:paddingLeft="60dp"
             android:paddingBottom="10dp"
-            android:textSize="20dp"
-            android:textColor="@color/red"
-            android:text="undone" />
 
-        <TextView
-            android:id="@+id/time_counter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|end"
-            android:paddingEnd="70dp"
-            android:textSize="20dp"
-            android:textColor="@color/white"
-            android:text="Start Now" />
+            android:text="undone"
+            android:textColor="#F36863" />
 
         <ImageView
             android:id="@+id/play_button"
@@ -106,14 +109,36 @@
         android:gravity="center"
         android:textSize="25dp"
         android:layout_marginTop="260dp"
-        android:text="Your Weekly Schedule"
+        android:text="Today's Schedule"
         android:textColor="@color/white"/>
+    <View
+        android:layout_width="300dp"
+        android:layout_marginLeft="60dp"
+        android:layout_height="3dp"
+        android:background="#333333"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="300dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/homeList"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="320dp"
+        android:paddingHorizontal="10dp"
     android:layout_width="match_parent"
     android:layout_height="567dp"
  />
+
+    <TextView
+        android:id="@+id/time_counter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="center_vertical|end"
+        android:layout_marginTop="228dp"
+        android:layout_marginEnd="-39dp"
+        android:paddingEnd="70dp"
+        android:text="Start Now"
+        android:textColor="@color/white"
+        android:textSize="15dp" />
 
 </RelativeLayout>

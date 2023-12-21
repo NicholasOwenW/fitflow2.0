@@ -19,9 +19,12 @@
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:background="@color/white"
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header_home"
-        app:menu="@menu/activity_main_home_drawer" />
+        app:menu="@menu/activity_main_home_drawer"
+        android:background="#141414"
+        app:itemTextColor="#CDE4C5"
+        app:itemIconTint="#71CF6A"
+        app:itemBackground="@drawable/nav_item_highlight_color"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>
