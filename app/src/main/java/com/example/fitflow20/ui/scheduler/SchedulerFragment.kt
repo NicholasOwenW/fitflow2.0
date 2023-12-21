@@ -21,7 +21,9 @@ import com.example.fitflow20.databinding.FragmentSchedulerBinding
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
-
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 
 class SchedulerFragment : Fragment() {
 
@@ -72,7 +74,10 @@ class SchedulerFragment : Fragment() {
             val ListofWorkouts: List<Workout> = getCheckedWorkouts()
             val day = selectedDay
 
+            // TODO :Betulin FIREBASE REALTIME biar workoutsdays muncul pas register user
             // TODO: MASUKIN LISTOFWORKOUTS SAMA DAY KE DATABASE
+            // TODO: lu cari cara buat reference WorkoutDay > Monday
+            //  TODO: Mondaynya dimasukin ListOfWorkouts
 
         }
     }
