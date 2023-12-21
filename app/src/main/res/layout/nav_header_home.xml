@@ -13,13 +13,4 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
     >
 
-    <ImageView
-        android:id="@+id/profile_pic_header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginBottom="12dp"
-        android:layout_gravity="center_vertical"
-        app:srcCompat="@mipmap/ic_launcher_round" />
-
 </LinearLayout>

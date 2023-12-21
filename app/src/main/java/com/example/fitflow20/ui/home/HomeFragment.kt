@@ -1,5 +1,6 @@
 package com.example.fitflow20.ui.home
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -174,4 +175,5 @@ class HomeFragment : Fragment() {
         val daysArray = arrayOf("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
         return daysArray[dayOfWeek - 1]
     }
+
 }

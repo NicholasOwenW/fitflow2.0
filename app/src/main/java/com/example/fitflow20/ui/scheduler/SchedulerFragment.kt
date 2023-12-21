@@ -1,4 +1,5 @@
 package com.example.fitflow20.ui.scheduler
+
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,22 +12,32 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fitflow20.adapter.WorkoutListAdapter
 import RetrofitInstance
+import android.app.ProgressDialog
+import android.content.Intent
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
+import com.example.fitflow20.HomeActivity
 import com.example.fitflow20.R
 import com.example.fitflow20.api.Workout
+import com.example.fitflow20.databinding.ActivityRegisterBinding
 import com.example.fitflow20.databinding.FragmentSchedulerBinding
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 class SchedulerFragment : Fragment() {
 
+    lateinit var auth: FirebaseAuth
+    lateinit var ref: DatabaseReference
     private var _binding: FragmentSchedulerBinding? = null
     private val binding get() = _binding!!
 
@@ -70,17 +81,39 @@ class SchedulerFragment : Fragment() {
         })
 
         val addBtn = view.findViewById<Button>(R.id.add_button)
-        addBtn.setOnClickListener(){
-            val ListofWorkouts: List<Workout> = getCheckedWorkouts()
-            val day = selectedDay
+        addBtn.setOnClickListener() {
+            val selectedDay = arguments?.getString("selected_day")
+            val listOfWorkouts = getCheckedWorkouts()
 
-            // TODO :Betulin FIREBASE REALTIME biar workoutsdays muncul pas register user
-            // TODO: MASUKIN LISTOFWORKOUTS SAMA DAY KE DATABASE
-            // TODO: lu cari cara buat reference WorkoutDay > Monday
-            //  TODO: Mondaynya dimasukin ListOfWorkouts
-
+            if (selectedDay != null) {
+                saveWorkoutsForDay(selectedDay, listOfWorkouts)
+            }
         }
     }
+
+    private fun saveWorkoutsForDay(day: String, workouts: List<Workout>) {
+        auth = FirebaseAuth.getInstance()
+        val currentUserId = auth.currentUser?.uid
+
+        if (currentUserId != null) {
+            ref = FirebaseDatabase.getInstance("https://fitflow-id-default-rtdb.asia-southeast1.firebasedatabase.app/")
+                .reference.child("USERS").child(currentUserId).child("workoutDays")
+            val userWorkoutsRef = ref.child(day)
+
+            // Convert the list of Workout objects to a list of strings
+            val workoutNames = workouts.map { it.name }
+
+            userWorkoutsRef.setValue(workoutNames).addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Toast.makeText(requireContext(), "Workouts saved for $day", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(requireContext(), "Failed to save workouts", Toast.LENGTH_SHORT).show()
+                    Log.e(TAG, "Failed to save workouts: ${it.exception}")
+                }
+            }
+        }
+    }
+
 
     private fun setupRecyclerView() {
         binding.workoutrecycler.apply {
@@ -115,6 +148,7 @@ class SchedulerFragment : Fragment() {
             }
         }
     }
+
 
     private fun setActionBarTitle(title: String) {
         (requireActivity() as? AppCompatActivity)?.supportActionBar?.title = title
